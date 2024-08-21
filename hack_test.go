@@ -100,3 +100,37 @@ func BenchmarkTowerBreakers(b *testing.B) {
 		TowerBreakers(1000000, 1000000)
 	}
 }
+
+func TestCaesarCipher(t *testing.T) {
+	tests := []struct {
+		name     string
+		s        string
+		k        int32
+		expected string
+	}{
+		{"NoShift", "abc", 0, "abc"},
+		{"ShiftByOne", "abc", 1, "bcd"},
+		{"ShiftByTwentySix", "abc", 26, "abc"},
+		{"ShiftWithWrapAround", "xyz", 3, "abc"},
+		{"MixedCase", "AbC", 2, "CdE"},
+		{"NonAlphabeticCharacters", "a!b.c", 1, "b!c.d"},
+		{"LargeShift", "abc", 52, "abc"},
+		{"NegativeShift", "abc", -1, "zab"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			result := CaesarCipher(tt.s, tt.k)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func BenchmarkCaesarCipher(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		CaesarCipher("The quick brown fox jumps over the lazy dog", 5)
+	}
+}
