@@ -21,3 +21,14 @@ func PageCount(n, p int32) int32 {
 	}
 	return back
 }
+
+func TowerBreakers(n, m int32) int32 {
+	if m == 1 {
+		return 2
+	}
+
+	if n%2 == 0 {
+		return 2
+	}
+	return 1
+}

@@ -68,3 +68,35 @@ func BenchmarkPageCount(b *testing.B) {
 		PageCount(7, 4)
 	}
 }
+
+func TestTowerBreakers(t *testing.T) {
+	tests := []struct {
+		name     string
+		n        int32
+		m        int32
+		expected int32
+	}{
+		{"SingleTowerSingleHeight", 1, 1, 2},
+		{"SingleTowerMultipleHeight", 1, 2, 1},
+		{"MultipleTowersSingleHeight", 2, 1, 2},
+		{"MultipleTowersEvenCount", 4, 3, 2},
+		{"MultipleTowersOddCount", 3, 3, 1},
+		{"LargeNumberOfTowers", 1000000, 1000000, 2},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			result := TowerBreakers(tt.n, tt.m)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func BenchmarkTowerBreakers(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		TowerBreakers(1000000, 1000000)
+	}
+}
