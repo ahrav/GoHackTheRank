@@ -1,6 +1,9 @@
 package gohacktherank
 
-import "strings"
+import (
+	"sort"
+	"strings"
+)
 
 func SockMerchant(n int32, ar []int32) int32 {
 	pairs := int32(0)
@@ -54,4 +57,20 @@ func CaesarCipher(s string, k int32) string {
 	}
 
 	return sb.String()
+}
+
+func MaxMin(k int32, arr []int32) int32 {
+	sort.Slice(arr, func(i, j int) bool {
+		return arr[i] < arr[j]
+	})
+
+	minV := arr[k-1] - arr[0]
+
+	for i := k; i < int32(len(arr)); i++ {
+		if m := arr[i] - arr[i-k+1]; m < minV {
+			minV = m
+		}
+	}
+
+	return minV
 }

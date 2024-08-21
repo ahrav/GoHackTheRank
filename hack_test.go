@@ -134,3 +134,36 @@ func BenchmarkCaesarCipher(b *testing.B) {
 		CaesarCipher("The quick brown fox jumps over the lazy dog", 5)
 	}
 }
+
+func TestMaxMin(t *testing.T) {
+	tests := []struct {
+		name     string
+		k        int32
+		arr      []int32
+		expected int32
+	}{
+		{"SingleElement", 1, []int32{5}, 0},
+		{"TwoElements", 2, []int32{1, 2}, 1},
+		{"MultipleElements", 3, []int32{10, 100, 300, 200, 1000, 20, 30}, 20},
+		{"AllSameElements", 2, []int32{5, 5, 5, 5}, 0},
+		{"UnsortedArray", 2, []int32{4, 1, 2, 3}, 1},
+		{"LargeKValue", 5, []int32{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, 40},
+		{"KEqualToArrayLength", 4, []int32{1, 2, 3, 4}, 3},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			result := MaxMin(tt.k, tt.arr)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func BenchmarkMaxMin(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		MaxMin(3, []int32{10, 100, 300, 200, 1000, 20, 30})
+	}
+}
