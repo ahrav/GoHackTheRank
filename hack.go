@@ -12,3 +12,12 @@ func SockMerchant(n int32, ar []int32) int32 {
 
 	return pairs
 }
+
+func PageCount(n, p int32) int32 {
+	front := p / 2
+	back := (n / 2) - front
+	if front < back {
+		return front
+	}
+	return back
+}
